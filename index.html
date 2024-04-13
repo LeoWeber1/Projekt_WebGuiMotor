@@ -22,7 +22,7 @@
     <div class="" id="home">
         <div class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12" style="margin-top: -30px;">
                     <nav class="navbar navbar-expand-xl navbar-light bg-light">
                         <a class="navbar-brand" href="#">
                             <i class="fas fa-3x fa-tachometer-alt tm-site-icon"></i>
@@ -58,21 +58,21 @@
                 </div>
             </div>
             <!-- row -->
-            <div class="row tm-content-row tm-mt-big">
+            <div class="row tm-content-row tm-mt-big" style="margin-top: 130px;">
                 <div class="tm-col tm-col-big">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title">Latest Hits</h2>
+                    <div class="bg-white tm-block h-100" style="padding: 10px;">
+                        <h2 class="tm-block-title">Line Chart</h2>
                         <canvas id="lineChart"></canvas>
                     </div>
                 </div>
-                <div class="tm-col tm-col-big">
-                    <div class="bg-white tm-block h-100">
-                        <h2 class="tm-block-title">Performance</h2>
+                <div class="tm-col tm-col-big" style="padding: 5px">
+                    <div class="bg-white tm-block h-100" style="padding: 10px;">
+                        <h2 class="tm-block-title">Bar Chart</h2>
                         <canvas id="barChart"></canvas>
                     </div>
                 </div>
                 <div class="tm-col tm-col-small">
-                    <div class="bg-white tm-block h-100">
+                    <div class="bg-white tm-block h-100" style="padding: 10px;">
                         <canvas id="pieChart" class="chartjs-render-monitor"></canvas>
                     </div>
                 </div>
@@ -160,13 +160,15 @@
             var currentsAsNumbers = currents.map(Number);
 
             drawLineChart(timestamps, ampers, currentsAsNumbers, voltages);
+            drawBarChart(timestamps, ampers, currentsAsNumbers, voltages);
+            drawPieChart( timestamps, ampers, currentsAsNumbers, voltages); // Pie Chart
+
+
         }
         };
         xhr.send(null);
             
             updateChartOptions();
-            drawLineChart(); // Line Chart
-            drawBarChart(); // Bar Chart
             drawPieChart(); // Pie Chart
             drawCalendar(); // Calendar
 
