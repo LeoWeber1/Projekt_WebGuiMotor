@@ -116,57 +116,15 @@
         var currents = [];
         var voltages = [];
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'output.csv', true);
-        xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var text = xhr.responseText;
-            var lines = text.split('\n');
-            var headers = lines[0].split(',');
-
-            // Leeren Sie die Arrays
-            timestamps = [];
-            ampers = [];
-            currents = [];
-            voltages = [];
-
-            for (var i = 1; i < lines.length; i++) {
-            var currentline = lines[i].split(',');
-
-            // Fügen Sie die Werte in die entsprechenden Arrays ein
-            for (var j = 0; j < headers.length; j++) {
-                switch (headers[j].trim()) {
-                case 'timestamp':
-                    timestamps.push(currentline[j]);
-                    break;
-                case 'amper':
-                    ampers.push(currentline[j]);
-                    break;
-                case 'current':
-                    currents.push(currentline[j]);
-                    break;
-                case 'voltage':
-                    voltages.push(currentline[j]);
-                    break;
-                }
-            }
-            }
-
-            // Ausgabe der Array
-            console.log('Timestamps:', timestamps);
-            console.log('Ampers:', ampers);
-            console.log('Currents:', currents);
-            console.log('Voltages:', voltages);
-            var currentsAsNumbers = currents.map(Number);
-
-            drawLineChart(timestamps, ampers, currentsAsNumbers, voltages);
-            drawBarChart(timestamps, ampers, currentsAsNumbers, voltages);
-            drawPieChart( timestamps, ampers, currentsAsNumbers, voltages); // Pie Chart
-
-
-        }
-        };
-        xhr.send(null);
+        fetch('http://localhost:3000/data')
+        .then(response => response.json())
+        .then(data => {
+            // Use the data to update your charts
+            console.log(data);
+            drawLineChart(data.timestamps, data.ampers, data.currents, data.voltages);
+            drawBarChart(data.timestamps, data.ampers, data.currents, data.voltages);
+            drawPieChart(data.timestamps, data.ampers, data.currents, data.voltages);
+        });
             
             updateChartOptions();
             drawPieChart(); // Pie Chart
