@@ -107,36 +107,60 @@
         barChart, pieChart;
         // DOM is ready
 
-    
+
 
         $(function () {
-                // Erstellen Sie separate Arrays für jede Variable
-        var timestamps = [];
-        var ampers = [];
-        var currents = [];
-        var voltages = [];
 
-        fetch('http://localhost:3000/data')
-        .then(response => response.json())
-        .then(data => {
-            // Use the data to update your charts
-            console.log(data);
-            drawLineChart(data.timestamps, data.ampers, data.currents, data.voltages);
-            drawBarChart(data.timestamps, data.ampers, data.currents, data.voltages);
-            drawPieChart(data.timestamps, data.ampers, data.currents, data.voltages);
-        });
-            
-            updateChartOptions();
-            drawPieChart(); // Pie Chart
-            drawCalendar(); // Calendar
 
-            $(window).resize(function () {
-                updateChartOptions();
-                updateLineChart();
-                updateBarChart();
-                reloadPage();
-            });
-        })
+            function selectEveryXth(data, x) {
+                return data.filter((_, i) => i % x === 0);
+            }
+    // Funktion zum Aktualisieren der Diagramme
+            function updateCharts() {
+                fetch('http://localhost:3000/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Bestimmen Sie x basierend auf der Länge der Daten
+                        const x = Math.floor(data.timestamps.length / 20);
+
+                        // Wählen Sie nur jeden x-ten Wert aus
+                        const timestamps = selectEveryXth(data.timestamps, x);
+                        const voltages = selectEveryXth(data.voltages, x);
+                        const currents = selectEveryXth(data.currents, x);
+                        const velocities = selectEveryXth(data.velocities, x);
+                        const torques = selectEveryXth(data.torques, x);
+                        const temperatures = selectEveryXth(data.temperatures, x);
+                        const elec_powers = selectEveryXth(data.elec_powers, x);
+                        const mec_powers = selectEveryXth(data.mec_powers, x);
+                        const efficiencies = selectEveryXth(data.efficiencies, x);
+
+                        // Diagramme aktualisieren
+                        drawLineChart(timestamps, voltages, currents, velocities, torques, temperatures, elec_powers, mec_powers, efficiencies);
+                        drawBarChart(timestamps, voltages, currents, velocities, torques, temperatures, elec_powers, mec_powers, efficiencies);
+                    });
+            }
+
+
+
+
+    // Diagramme beim Laden der Seite zeichnen
+    updateCharts();
+
+    // Diagramme alle 5 secound aktualisieren
+   // setInterval(updateCharts, 30000);
+
+    updateChartOptions();
+    drawPieChart(); // Pie Chart
+    drawCalendar(); // Calendar
+
+    $(window).resize(function () {
+        updateChartOptions();
+        updateLineChart();
+        updateBarChart();
+        reloadPage();
+    });
+})
+
     </script>
 </body>
 </html>

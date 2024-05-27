@@ -50,7 +50,7 @@ const width_threshold = 480;
 //   }
 // };
 // xhr.send(null);
-function drawLineChart(timestamps, ampers, currents, voltages) {
+function drawLineChart(timestamps, voltages, currents, velocities, torques, temperatures, elec_powers, mec_powers, efficiencies) {
   if ($("#lineChart").length) {
     ctxLine = document.getElementById("lineChart").getContext("2d");
     optionsLine = {
@@ -69,29 +69,64 @@ function drawLineChart(timestamps, ampers, currents, voltages) {
     // Set aspect ratio based on window width
     optionsLine.maintainAspectRatio =
       $(window).width() < width_threshold ? false : true;
-    console.log(currents)
+
     configLine = {
       type: "line",
       data: {
         labels: timestamps, // Verwenden Sie die timestamps als Labels
         datasets: [
           {
-            label: "Ampers",
-            data: ampers, // Verwenden Sie die ampers-Daten
+            label: "Voltages",
+            data: voltages, // Verwenden Sie die voltages-Daten
             fill: false,
             borderColor: "rgb(75, 192, 192)",
             lineTension: 0.1
           },
           {
             label: "Currents",
-            data: currents, // Verwenden Sie die currents-Daten
+            data: currents,
             fill: false,
             borderColor: "rgba(255,99,132,1)",
             lineTension: 0.1
           },
           {
-            label: "Voltages",
-            data: voltages, // Verwenden Sie die voltages-Daten
+            label: "Velocities",
+            data: velocities,
+            fill: false,
+            borderColor: "rgba(153, 102, 255, 1)",
+            lineTension: 0.1
+          },
+          {
+            label: "Torques",
+            data: torques,
+            fill: false,
+            borderColor: "rgba(255, 159, 64, 1)",
+            lineTension: 0.1
+          },
+          {
+            label: "Temperatures",
+            data: temperatures,
+            fill: false,
+            borderColor: "rgba(255, 205, 86, 1)",
+            lineTension: 0.1
+          },
+          {
+            label: "Elec Powers",
+            data: elec_powers,
+            fill: false,
+            borderColor: "rgba(75, 192, 192, 1)",
+            lineTension: 0.1
+          },
+          {
+            label: "Mec Powers",
+            data: mec_powers,
+            fill: false,
+            borderColor: "rgba(54, 162, 235, 1)",
+            lineTension: 0.1
+          },
+          {
+            label: "Efficiencies",
+            data: efficiencies,
             fill: false,
             borderColor: "rgba(153, 102, 255, 1)",
             lineTension: 0.1
@@ -104,7 +139,8 @@ function drawLineChart(timestamps, ampers, currents, voltages) {
     lineChart = new Chart(ctxLine, configLine);
   }
 }
-function drawBarChart(timestamps, ampers, currentsAsNumbers, voltages) {
+
+function drawBarChart(timestamps, voltages, currents, velocities, torques, temperatures, elec_powers, mec_powers, efficiencies) {
   if ($("#barChart").length) {
     ctxBar = document.getElementById("barChart").getContext("2d");
 
@@ -134,22 +170,57 @@ function drawBarChart(timestamps, ampers, currentsAsNumbers, voltages) {
         labels: timestamps,
         datasets: [
           {
-            label: "Ampers",
-            data: ampers,
+            label: "Voltages",
+            data: voltages,
             backgroundColor: "rgba(255, 99, 132, 0.2)",
             borderColor: "rgba(255,99,132,1)",
             borderWidth: 1
           },
           {
             label: "Currents",
-            data: currentsAsNumbers,
+            data: currents,
             backgroundColor: "rgba(54, 162, 235, 0.2)",
             borderColor: "rgba(54, 162, 235, 1)",
             borderWidth: 1
           },
           {
-            label: "Voltages",
-            data: voltages,
+            label: "Velocities",
+            data: velocities,
+            backgroundColor: "rgba(153, 102, 255, 0.2)",
+            borderColor: "rgba(153, 102, 255, 1)",
+            borderWidth: 1
+          },
+          {
+            label: "Torques",
+            data: torques,
+            backgroundColor: "rgba(255, 159, 64, 0.2)",
+            borderColor: "rgba(255, 159, 64, 1)",
+            borderWidth: 1
+          },
+          {
+            label: "Temperatures",
+            data: temperatures,
+            backgroundColor: "rgba(255, 205, 86, 0.2)",
+            borderColor: "rgba(255, 205, 86, 1)",
+            borderWidth: 1
+          },
+          {
+            label: "Elec Powers",
+            data: elec_powers,
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1
+          },
+          {
+            label: "Mec Powers",
+            data: mec_powers,
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1
+          },
+          {
+            label: "Efficiencies",
+            data: efficiencies,
             backgroundColor: "rgba(153, 102, 255, 0.2)",
             borderColor: "rgba(153, 102, 255, 1)",
             borderWidth: 1
